@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Tarjetas WiFi</title>
+    <!-- Cargar TailwindCSS desde un CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Incluir las librerías jsPDF y html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+
+<body class="bg-gray-100 font-sans h-screen flex items-center justify-center">
+    <!-- Card centrado -->
+    <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
+        <h2 class="text-3xl text-center mb-6 font-bold">Generador de Tarjetas WiFi</h2>
+
+        <!-- Formulario de entrada -->
+        <div id="formulario" class="space-y-4">
+            <div>
+                <label for="ssid" class="block text-lg font-medium">Nombre de la Red (SSID):</label>
+                <input type="text" id="ssid" placeholder="Ejemplo: MiWiFi"
+                    class="w-full p-2 border border-gray-300 rounded" required>
+            </div>
+
+            <div>
+                <label for="password" class="block text-lg font-medium">Contraseña:</label>
+                <input type="text" id="password" placeholder="Ejemplo: 12345678"
+                    class="w-full p-2 border border-gray-300 rounded" required>
+            </div>
+
+            <div>
+                <label for="encryption" class="block text-lg font-medium">Tipo de Encriptación:</label>
+                <select id="encryption" class="w-full p-2 border border-gray-300 rounded">
+                    <option value="WPA2">WPA2</option>
+                    <option value="WPA3">WPA3</option>
+                    <option value="WEP">WEP</option>
+                </select>
+            </div>
+
+            <button onclick="generateWifiCard()"
+                class="w-full bg-gray-500 text-white p-3 rounded mt-4 hover:bg-gray-600">Generar Tarjeta WiFi</button>
+        </div>
+
+        <!-- Detalles de la Red WiFi y Código QR -->
+        <div id="wifiCard" class="bg-white p-6 rounded shadow-lg mt-6 hidden">
+            <h3 class="text-xl font-semibold mb-4">Detalles de la Red WiFi</h3>
+
+            <!-- Contenedor flex para los datos y el QR -->
+            <div class="flex items-start justify-between">
+                <!-- Datos de la red WiFi -->
+                <div>
+                    <p><strong>SSID:</strong> <span id="ssidOutput"></span></p>
+                    <p><strong>Contraseña:</strong> <span id="passwordOutput"></span></p>
+                    <p><strong>Encriptación:</strong> <span id="encryptionOutput"></span></p>
+                </div>
+
+                <!-- Código QR -->
+                <div id="qrcode" class="ml-6"></div>
+            </div>
+
+            <!-- Botón para generar otro QR -->
+            <button onclick="resetForm()"
+                class="w-full bg-gray-500 text-white p-3 rounded mt-4 hover:bg-gray-600">Generar Otro QR</button>
+        </div>
+
+        <!-- Botón para imprimir en PDF -->
+        <div class="print-container mt-6 hidden">
+            <button onclick="printToPDF()"
+                class="w-full bg-green-500 text-white p-3 rounded hover:bg-green-600">Imprimir en PDF</button>
+        </div>
+    </div>
+
+    <script src="/main.js"></script>
+</body>
+
+</html>
