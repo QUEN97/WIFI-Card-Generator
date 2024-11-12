@@ -5,7 +5,11 @@ function generateWifiCard() {
 
     // Validación de campos
     if (ssid === "" || password === "") {
-        alert("Por favor, completa todos los campos.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Faltan Datos',
+            text: 'Por favor, completa todos los campos antes de generar la tarjeta WiFi.',
+        });
         return;
     }
 
@@ -38,7 +42,10 @@ function generateQRCode(data) {
     qrcodeContainer.appendChild(canvas);  // Agregar el canvas al contenedor
 
     // Generar el código QR en el canvas
-    QRCode.toCanvas(canvas, data, function (error) {
+    QRCode.toCanvas(canvas, data, {
+        width: 250,  // Ajusta este valor para cambiar el tamaño del QR (250px)
+        margin: 2    // Opcional: añade un margen al QR
+    }, function (error) {
         if (error) {
             console.error(error);
         } else {
@@ -64,7 +71,11 @@ function resetForm() {
 function printToPDF() {
     // Asegurarse de que el contenido esté visible antes de capturarlo
     document.getElementById('wifiCard').classList.remove('hidden');
-    
+
+    // Ocultar el botón "Generar Otro QR" temporalmente
+    const generateButton = document.querySelector('#wifiCard button');
+    generateButton.style.display = 'none'; // Ocultar el botón
+
     // Convertir el contenido del div en canvas
     html2canvas(document.getElementById('wifiCard')).then(function (canvas) {
         const { jsPDF } = window.jspdf;
@@ -76,12 +87,15 @@ function printToPDF() {
 
         // Mostrar el PDF en una nueva ventana
         doc.output('dataurlnewwindow');
+
+        // Volver a mostrar el botón después de generar el PDF
+        generateButton.style.display = 'block';
     });
 }
-function testPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+// function testPDF() {
+//     const { jsPDF } = window.jspdf;
+//     const doc = new jsPDF();
 
-    doc.text("Prueba de PDF", 10, 10);  // Añadir texto simple
-    doc.output('dataurlnewwindow');  // Mostrar en nueva ventana
-}
+//     doc.text("Prueba de PDF", 10, 10);  // Añadir texto simple
+//     doc.output('dataurlnewwindow');  // Mostrar en nueva ventana
+// }
