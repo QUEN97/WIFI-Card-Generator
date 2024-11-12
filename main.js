@@ -1,4 +1,6 @@
 function generateWifiCard() {
+    const companyName = document.getElementById('companyNameInput').value;
+    const companyLogoInput = document.getElementById('companyLogoInput');
     const ssid = document.getElementById("ssid").value;
     const password = document.getElementById("password").value;
     const encryption = document.getElementById("encryption").value;
@@ -17,6 +19,15 @@ function generateWifiCard() {
     document.getElementById("ssidOutput").textContent = ssid;
     document.getElementById("passwordOutput").textContent = password;
     document.getElementById("encryptionOutput").textContent = encryption;
+    // Mostrar el nombre de la empresa
+    document.getElementById('companyName').textContent = companyName;
+
+    // Leer el archivo del logo como una URL de imagen
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        document.getElementById('companyLogo').src = e.target.result;
+    };
+    reader.readAsDataURL(companyLogoInput.files[0]);
 
     // Ocultar el formulario
     document.getElementById("formulario").classList.add("hidden");
@@ -80,6 +91,16 @@ function printToPDF() {
     html2canvas(document.getElementById('wifiCard')).then(function (canvas) {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
+
+        // Incluir el logo de la empresa
+        const logoImg = document.getElementById('companyLogo').src;
+        doc.addImage(logoImg, 'PNG', 10, 10, 30, 30); // Ajusta las dimensiones y posición del logo
+
+        // Incluir el nombre de la empresa
+        const companyName = document.getElementById('companyName').textContent;
+        doc.setFontSize(18);
+        doc.text(companyName, 50, 25); // Ajusta la posición del nombre
+
 
         // Convertir el canvas a imagen y agregar al PDF
         const imgData = canvas.toDataURL('image/png');

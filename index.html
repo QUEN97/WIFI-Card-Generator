@@ -42,6 +42,17 @@
         <!-- Formulario de entrada -->
         <div id="formulario" class="space-y-4">
             <div>
+                <label for="companyNameInput" class="block text-lg font-medium">Nombre de la Empresa:</label>
+                <input type="text" id="companyNameInput" placeholder="Ejemplo: Mi Empresa"
+                    class="w-full p-2 border border-gray-300 rounded" required>
+            </div>
+
+            <div>
+                <label for="companyLogoInput" class="block text-lg font-medium">Cargar Logo de la Empresa:</label>
+                <input type="file" id="companyLogoInput" accept="image/*"
+                    class="w-full p-2 border border-gray-300 rounded" required>
+            </div>
+            <div>
                 <label for="ssid" class="block text-lg font-medium">Nombre de la Red (SSID):</label>
                 <input type="text" id="ssid" placeholder="Ejemplo: MiWiFi"
                     class="w-full p-2 border border-gray-300 rounded" required>
@@ -68,6 +79,12 @@
 
         <!-- Detalles de la Red WiFi y Código QR -->
         <div id="wifiCard" class="bg-white p-6 rounded shadow-lg mt-6 hidden">
+            <!-- Aquí se mostrará el nombre y logo de la empresa -->
+            <div class="flex items-center justify-between">
+                <div id="companyName" class="font-bold text-xl"></div>
+                <img id="companyLogo" alt="Logo de la empresa" style="width: 250px;">
+            </div>
+
             <h3 class="text-xl font-semibold mb-4">Detalles de la Red WiFi</h3>
 
             <!-- Contenedor flex para los datos y el QR -->
